@@ -1,0 +1,107 @@
+(*
+   Google+ profile as returned by their API
+
+   Reference: https://developers.google.com/+/api/latest/people#resource
+
+   The documentation does not indicate which fields are required
+   and which are optional. Some changes might be required. In doubt,
+   a field is considered optional.
+*)
+
+type profile = {
+  kind: string; (* always "plus#person" *)
+  ?etag: string option;
+  ?nickname: string option;
+  ?occupation: string option;
+  ?skills: string option;
+  ?birthday: string option;
+  ?gender: string option;
+  ~emails: email_info list;
+  ~urls: url list;
+  objectType: string;
+  id: string;
+  displayName: string;
+  name: name;
+  ?tagline: string option;
+  ?braggingRights: string option;
+  ?aboutMe: string option;
+  ?currentLocation: string option;
+  ?relationshipStatus: string option;
+  url: string;
+  ?image: image option;
+  ~organizations: organization list;
+  placesLived: place_lived list;
+  ~isPlusUser: bool;
+  ?language: string option;
+  ageRange: age_range;
+  ~plusOneCount: int;
+  ~circledByCount: int;
+  ~verified: bool;
+  ?cover: cover option;
+  ?domain: string option;
+}
+
+type email_info = {
+  value: email;
+  type_ <json name="type"> : string; (* "account" is one *)
+}
+
+type email <ocaml from="Core" t="email"> = abstract
+
+type url = {
+  value: string;
+  type_ <json name="type"> : string;
+  label: string;
+}
+
+type name = {
+  ?formatted: string option;
+  ?familyName: string option;
+  ?givenName: string option;
+  ?middleName: string option;
+  ?honorificPrefix: string option;
+  ?honorificSuffix: string option;
+}
+
+type image = {
+  url: string;
+}
+
+type organization = {
+  ?name: string option;
+  ?department: string option;
+  ?title: string option;
+  type_ <json name="type">: string;
+  ?startDate: string option;
+  ?endDate: string option;
+  ?location: string option;
+  ?description: string option;
+  ~primary: bool;
+}
+
+type place_lived = {
+  value: string;
+  ~primary: bool;
+}
+
+type age_range = {
+  ~min: int;
+  ?max: int option;
+}
+
+type cover = {
+  ?layout: string option;
+  ?coverPhoto: cover_photo option;
+  ?coverInfo: cover_info option;
+}
+
+type cover_photo = {
+  url: string;
+  ?height: int option;
+  ?width: int option;
+}
+
+type cover_info = {
+  ~topImageOffset: int;
+  ~leftImageOffset: int;
+}

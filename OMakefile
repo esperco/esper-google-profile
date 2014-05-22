@@ -1,0 +1,17 @@
+OCAML_LIBS = $(OCAML_LIBS_google-profile)
+
+FILES[] =
+  google_profile_t
+  google_profile_j
+  google_profile_v
+  google_profile
+
+Atdgen(google_profile, -j-std)
+OCamlLibrary(google-profile, $(FILES))
+Meta(google-profile)
+
+.DEFAULT: META google-profile.cma google-profile.cmxa
+
+.PHONY: clean
+clean:
+  rm -f *.o *.a *.cm* *~ *.annot *.run *.opt META $(ATDGEN_OUTFILES)
