@@ -30,7 +30,7 @@ type profile = {
   url: string;
   ?image: image option;
   ~organizations: organization list;
-  placesLived: place_lived list;
+  ~placesLived: place_lived list;
   ~isPlusUser: bool;
   ?language: string option;
   ageRange: age_range;

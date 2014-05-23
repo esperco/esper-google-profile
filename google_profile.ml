@@ -13,7 +13,10 @@ let get_profile access_token =
     ~headers:[Google_auth.auth_header access_token]
     (Uri.of_string "https://www.googleapis.com/plus/v1/people/me")
   >>= fun (status, headers, body) ->
-  return (Google_profile_j.profile_of_string body)
+  match status with
+  | `OK -> return (Google_profile_j.profile_of_string body)
+  | `Not_found -> Http_exn.not_found "Google profile not found"
+  | _ -> failwith "Cannot access Google profile"
 
 let get_account_email_address access_token =
   get_profile access_token >>= fun profile ->
