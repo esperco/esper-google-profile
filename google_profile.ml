@@ -16,11 +16,16 @@ let get_profile access_token =
   match status with
   | `OK -> return (Google_profile_j.profile_of_string body)
   | `Not_found -> Http_exn.not_found "Google profile not found"
-  | _ -> failwith "Cannot access Google profile"
+  | _ -> Http_exn.bad_request "Cannot access Google profile"
 
-let get_account_email_address access_token =
-  get_profile access_token >>= fun profile ->
+let extract_email_address profile =
   match List.filter (fun x -> x.type_ = "account") profile.emails with
-  | [] -> failwith "No account email address found in Google+ profile. \
-                    Missing permission for email scope?"
-  | x :: _ -> return x.value
+  | [] ->
+      Http_exn.forbidden
+        "No account email address found in Google+ profile. \
+         Missing permission for email scope?"
+  | x :: _ -> x.value
+
+let get_google_email_address access_token =
+  get_profile access_token >>= fun profile ->
+  return (extract_email_address profile)
