@@ -27,7 +27,7 @@ type profile = {
   ?aboutMe: string option;
   ?currentLocation: string option;
   ?relationshipStatus: string option;
-  url: string;
+  ?url: string option;
   ?image: image option;
   ~organizations: organization list;
   ~placesLived: place_lived list;
