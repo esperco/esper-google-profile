@@ -33,7 +33,7 @@ type profile = {
   ~placesLived: place_lived list;
   ~isPlusUser: bool;
   ?language: string option;
-  ageRange: age_range;
+  ?ageRange: age_range option;
   ~plusOneCount: int;
   ~circledByCount: int;
   ~verified: bool;
