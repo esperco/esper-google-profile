@@ -9,9 +9,10 @@ open Lwt
 open Google_profile_t
 
 let get_profile access_token =
+  let url = Google_api_util.make_uri ~path:"/plus/v1/people/me" () in
   Util_http_client.get
     ~headers:[Google_auth.auth_header access_token]
-    (Uri.of_string "https://www.googleapis.com/plus/v1/people/me")
+    url
   >>= fun (status, headers, body) ->
   match status with
   | `OK -> return (Google_profile_j.profile_of_string body)
