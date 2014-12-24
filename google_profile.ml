@@ -40,7 +40,7 @@ let get_profile uid =
 *)
 
 let extract_email_address profile =
-  match List.filter (fun x -> x.type_ = "account") profile.emails with
+  match List.filter (fun (x : Google_profile_t.email_info) -> x.type_ = "account") profile.emails with
   | [] ->
       Http_exn.forbidden
         "No account email address found in Google+ profile. \
