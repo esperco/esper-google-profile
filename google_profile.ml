@@ -21,7 +21,7 @@ let get_profile with_token =
   | `Not_found ->
       Http_exn.not_found `Google_profile_not_found "Google profile not found"
   | _ ->
-      Http_exn.bad_request "Cannot access Google profile"
+      failwith "Cannot access Google profile"
 
 let extract_email_address profile =
   let email_l =
