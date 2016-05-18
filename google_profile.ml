@@ -18,8 +18,10 @@ let get_profile with_token =
   with_token call_get_profile >>= fun (status, headers, body) ->
   match status with
   | `OK -> return (Google_profile_j.profile_of_string body)
-  | `Not_found -> Http_exn.not_found "Google profile not found"
-  | _ -> Http_exn.bad_request "Cannot access Google profile"
+  | `Not_found ->
+      Http_exn.not_found `Google_profile_not_found "Google profile not found"
+  | _ ->
+      Http_exn.bad_request "Cannot access Google profile"
 
 let extract_email_address profile =
   let email_l =
@@ -29,6 +31,7 @@ let extract_email_address profile =
   match email_l with
   | [] ->
       Http_exn.forbidden
+        `Google_email_not_found
         "No account email address found in Google+ profile. \
          Missing permission for email scope?"
   | x :: _ -> x.value
